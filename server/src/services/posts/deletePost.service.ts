@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { deleteImage } from "../uploads/cloudinary.service.js";
 
 export const deletePost = async (postId: number, authorId: number) => {
@@ -18,7 +18,7 @@ export const deletePost = async (postId: number, authorId: number) => {
     try {
       await deleteImage(existingPost.post_picture_id);
     } catch (error) {
-      console.error("Failed to delete image from db:", error)
+      console.error("Failed to delete image from db:", error);
     }
   }
 

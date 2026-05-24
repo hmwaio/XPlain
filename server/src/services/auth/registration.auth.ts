@@ -1,9 +1,8 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { CompleteRegistrationInput } from "../../types/type.js";
 import { signToken } from "../../utils/jwt.js";
 import { hashPassword } from "../../utils/passwords.js";
 import { createProfile } from "../account/createProfile.service.js";
-
 
 /* CompleteRegistration */
 export const CompleteRegistration = async (

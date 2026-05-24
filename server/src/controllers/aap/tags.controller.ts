@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { HTTP_STATUS } from "../../constants/statusCodes.constant.js";
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import {
   getAllTags,
   getPopularTags,

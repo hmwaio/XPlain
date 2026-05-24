@@ -1,44 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;500;600;700&display=swap");
 @import "tailwindcss";
 
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+/* ==========================================================
+Tailwind v4 Theme Tokens
+========================================================== */
+
+@theme {
+  /* Colors */
+  --color-bg: #111111;
+  --color-bg-secondary: #171717;
+
+  --color-surface: #1d1d1d;
+  --color-surface-hover: #262626;
+  --color-surface-soft: #202020;
+
+  --color-border: rgba(255, 248, 230, 0.08);
+
+  --color-primary: #f5f1e8;
+  --color-secondary: #b8b1a3;
+  --color-muted: #8c8578;
+
+  --color-accent: #c6a972;
+  --color-accent-hover: #d8ba81;
+  --color-accent-soft: rgba(198, 169, 114, 0.12);
+
+  --color-success: #5b8c72;
+  --color-danger: #c46a6a;
+
+  /* Fonts */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Source Serif 4", serif;
+
+  /* Radius */
+  --radius-card: 1.5rem;
+}
+
+/* ==========================================================
+   Base Styles
+========================================================== */
+
+:root {
+  font-family: var(--font-sans);
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-} */
 
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
 
-body {
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-
-
-
-.google-colors {
-  background: linear-gradient(
-    90deg,
-    #e02514 0%,
-    #eaa235 25%,
-    #FBBC05 25%,
-    #22fb05 50%,
-    #34A853 50%,
-    #34A853 75%,
-    #4285F4 75%,
-    #4285F4 100%
-  );
+html {
+  scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  min-height: 100vh;
 
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(198, 169, 114, 0.06),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 255, 255, 0.02),
+      transparent 22%
+    ),
+    linear-gradient(to bottom, #111111, #141414);
 
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+}
 
+/* ==========================================================
+   Typography
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sans);
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+}
+
+p,
+.post-content {
+  font-family: var(--font-serif);
+  color: var(--color-secondary);
+  line-height: 1.8;
+}
+
+/* ==========================================================
+   Selection
+========================================================== */
+
+::selection {
+  background: rgba(198, 169, 114, 0.35);
+  color: white;
+}
+
+/* ==========================================================
+   Scrollbar
+========================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2f2f2f;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #424242;
+}
+
+/* ==========================================================
+   Reusable Utility Classes (Tailwind v4)
+========================================================== */
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--color-border);
+}
+
+@utility card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@utility card-hover {
+  &:hover {
+    background: var(--color-surface-hover);
+    border-color: rgba(198, 169, 114, 0.12);
+    transform: translateY(-2px);
+  }
+}
+
+@utility primary-btn {
+  background: var(--color-accent);
+  color: #111111;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+@utility primary-btn-hover {
+  &:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+  }
+}
+
+@utility muted-text {
+  color: var(--color-muted);
+}
+
+/* ==========================================================
+   Focus States
+========================================================== */
+
+button,
+input,
+textarea,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(198, 169, 114, 0.5);
+  outline-offset: 2px;
+}

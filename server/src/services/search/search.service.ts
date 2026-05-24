@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { offsetPaginate } from "../pagination/offsetScroll.service.js";
 
 type SearchFilters = {

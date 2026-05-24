@@ -1,23 +1,16 @@
 services:
   postgres:
     image: postgres:17
-    container_name: blog-pg
+    container_name: xplain_pg
     environment:
       POSTGRES_USER: hmwaio
       POSTGRES_PASSWORD: Hmwaio123
       POSTGRES_DB: mydb
     ports:
-      - "5432:5432"
+      - "5433:5432"   # host:container
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    container_name: blog-adminer
-    restart: always
-    ports:
-      - 8080:8080
-
 volumes:
   postgres_data:
-    name: backend_postgres_data
+    name: xplain_backend_pg_data

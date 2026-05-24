@@ -1,11 +1,10 @@
-import { prisma } from "../../lib/prisma.js";
-
+import { prisma } from "../../lib/prisma.lib.js";
 
 /* Cleanup Unverified Users */
 export const cleanupUnverifiedUsers = async () => {
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
 
-  const result = await prisma.user.deleteMany({
+  const result = await prisma.authSession.deleteMany({
     where: {
       created_at: {
         lt: oneHourAgo,

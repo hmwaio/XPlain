@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 
 export const likePost = async (postId: number, userId: number) => {
   const post = await prisma.post.findUnique({

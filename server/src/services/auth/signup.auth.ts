@@ -1,6 +1,6 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { SendOtpInput } from "../../types/type.js";
-import { generateOTP} from "../../utils/otp.util.js";
+import { generateOTP } from "../../utils/otp.util.js";
 
 /* SignUp */
 export const signupUser = async (data: SendOtpInput) => {

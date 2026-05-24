@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { cursorPaginate } from "../pagination/cursorScroll.service.js";
 
 /* save post */
@@ -98,12 +98,12 @@ export const getSavedPosts = async (
           _count: { select: { likes: true, comments: true } },
           likes: {
             where: { user_id: userId },
-            select: { user_id: true }
+            select: { user_id: true },
           },
           savedBy: {
             where: { user_id: userId },
-            select: { user_id: true }
-          }
+            select: { user_id: true },
+          },
         },
       },
     },
@@ -117,13 +117,13 @@ export const getSavedPosts = async (
       isLiked: item.post.likes?.length > 0,
       isSaved: item.post.savedBy?.length > 0,
       likes: undefined,
-      savedBy: undefined
-    }
+      savedBy: undefined,
+    },
   }));
 
   return {
     items: transformedItems,
     nextCursor: result.nextCursor,
-    hasMore: result.hasMore
+    hasMore: result.hasMore,
   };
 };

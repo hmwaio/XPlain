@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { CreatePostInput } from "../../types/type.js";
 
 export const updatePost = async (

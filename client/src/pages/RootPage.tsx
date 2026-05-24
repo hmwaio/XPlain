@@ -1,75 +1,128 @@
+import { Feather, Globe, PenSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function RootPage() {
   const navigate = useNavigate();
+
   function handleSignup() {
     navigate("/signup");
   }
+
   function handleLogin() {
     navigate("/login");
   }
+
   return (
-    <>
-      <div>
-        <div className="md:flex h-10/12">
-          <header className="h-1/6 w-full text-3xl font-bold md:w-1/2 md:h-full md:bg-black">
-            <h1 className="ml-10 text-orange-500 md:mt-56 md:mb-72 md:ml-20 lg:text-9xl md:text-8xl md:text-white">
-              XPlain
+    <div className="min-h-screen bg-bg text-primary flex flex-col">
+      {/* Main */}
+      <div className="flex flex-1 flex-col lg:flex-row">
+        {/* LEFT SIDE */}
+        <section className="relative flex w-full items-center justify-center overflow-hidden border-b border-border px-6 py-16 lg:w-1/2 lg:border-b-0 lg:border-r">
+          {/* subtle glow */}
+          <div className="absolute left-[-10%] top-[-10%] h-72 w-72 rounded-full bg-accent/10 blur-[100px]" />
+
+          <div className="relative z-10 max-w-xl">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-secondary">
+              <Feather size={16} className="text-accent" />
+              Share ideas beautifully
+            </div>
+
+            <h1 className="text-6xl font-extrabold tracking-tight text-primary sm:text-7xl lg:text-8xl">
+              X<span className="text-accent">Plain</span>
             </h1>
-          </header>
-          <main className="mt-4 md:mt-16 h-5/6 md:w-1/2 md:h-full flex flex-col items-center">
-            <section className="flex flex-col justify-start mx-3">
-              <h1 className="mt-10 text-6xl font-bold text-orange-500 md:text-8xl">
-                Connect to the World
-              </h1>
-              <h3 className="text-xl md:text-2xl mt-5 md:mt-10">
-                A place to share ideas & deepen your understanding
-              </h3>
-              <h2 className="mt-10 text-xl font-semibold md:mt-20 md:text-3xl">
-                Join Now
-              </h2>
-            </section>
-            <section className="flex flex-col justify-center items-center mt-5 gap-5">
+
+            <p className="mt-6 max-w-lg text-lg leading-8 text-secondary sm:text-xl">
+              A calm space for thoughtful conversations, meaningful discussions,
+              and timeless ideas.
+            </p>
+
+            {/* Features */}
+            <div className="mt-12 grid gap-4 sm:grid-cols-3">
+              <div className="card card-hover p-4">
+                <PenSquare className="mb-3 text-accent" size={22} />
+                <h3 className="font-semibold text-primary">Write</h3>
+                <p className="mt-1 text-sm text-secondary">
+                  Share stories & thoughts
+                </p>
+              </div>
+
+              <div className="card card-hover p-4">
+                <Globe className="mb-3 text-accent" size={22} />
+                <h3 className="font-semibold text-primary">Connect</h3>
+                <p className="mt-1 text-sm text-secondary">
+                  Meet curious minds
+                </p>
+              </div>
+
+              <div className="card card-hover p-4">
+                <Feather className="mb-3 text-accent" size={22} />
+                <h3 className="font-semibold text-primary">Discover</h3>
+                <p className="mt-1 text-sm text-secondary">Learn deeply</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT SIDE */}
+        <main className="flex w-full items-center justify-center px-6 py-14 lg:w-1/2">
+          <div className="glass w-full max-w-md rounded-[32px] p-8 shadow-2xl">
+            <h2 className="text-4xl font-bold text-primary sm:text-5xl">
+              Connect to the world
+            </h2>
+
+            <p className="mt-4 text-lg text-secondary">
+              Join a community where ideas matter more than noise.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4">
               <button
-                className="w-48 text-xl text-center rounded-full bg-orange-500 text-white md:w-60 md:h-10 md:text-2xl cursor-pointer"
                 onClick={handleLogin}
+                className="primary-btn primary-btn-hover h-14 cursor-pointer rounded-2xl text-lg"
               >
                 Log in
               </button>
+
               <button
-                className="w-48 text-xl text-center rounded-full bg-black text-white md:w-60 md:h-10 md:text-2xl cursor-pointer"
                 onClick={handleSignup}
+                className="h-14 cursor-pointer rounded-2xl border border-border bg-surface text-lg font-semibold text-primary transition hover:bg-surface-hover"
               >
                 Create account
               </button>
-              <p className="text-center">
-                By signing up, you agree to the{" "}
-                <a href="" className="text-blue-900">
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a href="" className="text-blue-900">
-                  Privacy Policy
-                </a>
-                , including{" "}
-                <a href="" className="text-blue-900">
-                  Cookie Use.
-                </a>
-              </p>
-            </section>
-          </main>
-        </div>
-        <footer className="mt-20 md:mt-6 flex flex-wrap h-1/12 w-full gap-x-5 justify-center">
-          <h6>Help Center</h6>
-          <h6>About</h6>
-          <h6>Terms of Service</h6>
-          <h6>Privacy Policy</h6>
-          <h6>Cookie Policy</h6>
-          <h6>Developers</h6>
-          <h6>&copy;2026 LOGO Corp.</h6>
-        </footer>
+            </div>
+
+            <p className="mt-8 text-center text-sm leading-6 text-muted">
+              By signing up, you agree to our{" "}
+              <span className="cursor-pointer text-accent hover:underline">
+                Terms of Service
+              </span>{" "}
+              and{" "}
+              <span className="cursor-pointer text-accent hover:underline">
+                Privacy Policy
+              </span>
+              .
+            </p>
+          </div>
+        </main>
       </div>
-    </>
+
+      {/* FOOTER */}
+      <footer className="border-t border-border px-6 py-6">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
+          <span className="cursor-pointer hover:text-secondary">
+            Help Center
+          </span>
+          <span className="cursor-pointer hover:text-secondary">About</span>
+          <span className="cursor-pointer hover:text-secondary">Terms</span>
+          <span className="cursor-pointer hover:text-secondary">Privacy</span>
+          <span className="cursor-pointer hover:text-secondary">Cookies</span>
+          <span className="cursor-pointer hover:text-secondary">
+            Developers
+          </span>
+
+          <span className="text-secondary">© 2026 XPlain</span>
+        </div>
+      </footer>
+    </div>
   );
 }
 

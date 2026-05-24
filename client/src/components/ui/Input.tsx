@@ -9,21 +9,34 @@ export const LabeledInput = ({
   maxlength,
 }: LabeledInputType) => {
   return (
-    <>
-      <div>
-        <label className="mb-2 block text-sm md:text-xl font-medium text-gray-700">
-          {label}
-        </label>
-        <input
-          type={type || "text"}
-          value={value}
-          placeholder={placeholder}
-          required
-          onChange={onchange}
-          maxLength={maxlength || 50}
-          className="w-xs md:w-lg h-14 border-2 rounded-2xl px-2 border-gray-400 bg-gray-50 text-gray-800 font-semibold text-lg hover:border-gray-500 focus:outline-none focus:border-orange-600"
-        />
-      </div>
-    </>
+    <div className="w-full">
+      <label className="mb-2 block text-sm sm:text-base font-medium text-secondary">
+        {label}
+      </label>
+
+      <input
+        type={type || "text"}
+        value={value}
+        placeholder={placeholder}
+        required
+        onChange={onchange}
+        maxLength={maxlength || 50}
+        className="
+          w-full
+          h-12 sm:h-14
+          px-4
+          rounded-2xl
+          border border-border
+          bg-surface
+          text-primary
+          text-sm sm:text-base
+          placeholder:text-muted
+          focus:outline-none
+          focus:ring-2 focus:ring-accent/40
+          focus:border-accent
+          transition
+        "
+      />
+    </div>
   );
 };

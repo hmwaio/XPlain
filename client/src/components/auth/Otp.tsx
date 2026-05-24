@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.js";
-import type { OTPInput } from "../../types/type.js";
+import type { OTPInputType } from "../../types/auth.types.js";
 import { LabeledInput } from "../ui/Input.js";
 
 function Otp() {
   const navigate = useNavigate();
   const { otpinput, loading, error } = useAuth();
-  const [postInputs, setPostInputs] = useState<OTPInput>({
+  const [postInputs, setPostInputs] = useState<OTPInputType>({
     otp: "",
   });
 

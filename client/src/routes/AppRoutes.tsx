@@ -14,7 +14,7 @@ import NotFound from "../pages/NotFound";
 import EditPost from "../pages/posts/EditPost";
 import AccountSettings from "../pages/profile/Account";
 import MyProfile from "../pages/profile/MyProfile";
-import UserProfile from "../pages/profile/Profile";
+import UserProfile from "../pages/profile/UserProfile";
 import SavedPage from "../pages/profile/SavedPosts";
 import ProfileSettings from "../pages/profile/Setting";
 

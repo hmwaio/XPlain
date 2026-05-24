@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { VerifyOTPInput } from "../../types/type.js";
 
 /* Verify OTP */

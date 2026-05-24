@@ -9,48 +9,36 @@ import { Link } from "react-router-dom";
 
 export default function LeftSidebar() {
   return (
-    <div>
-      <nav className="space-y-2">
-        <Link
-          to="/"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100"
-        >
-          <Home className="w-5 h-5" />
-          <span>Home</span>
-        </Link>
+    <nav className="space-y-1 p-2">
+      <SidebarItem icon={<Home size={18} />} label="Home" to="/" />
+      <SidebarItem
+        icon={<BookMarked size={18} />}
+        label="Library"
+        to="/saved-posts"
+      />
+      <SidebarItem
+        icon={<CircleUserRound size={18} />}
+        label="Profile"
+        to="/me"
+      />
+      <SidebarItem
+        icon={<Settings size={18} />}
+        label="Settings"
+        to="/settings"
+      />
+      <SidebarItem icon={<User size={18} />} label="Account" to="/account" />
+    </nav>
+  );
+}
 
-        <Link
-          to="/saved-posts"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100"
-        >
-          <BookMarked className="w-5 h-5" />
-          <span>Library</span>
-        </Link>
-
-        <Link
-          to="/me"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100"
-        >
-          <CircleUserRound className="w-5 h-5" />
-          <span>Profile</span>
-        </Link>
-
-        <Link
-          to="/settings"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100"
-        >
-          <Settings className="w-5 h-5" />
-          <span>Settings</span>
-        </Link>
-
-        <Link
-          to="/account"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100"
-        >
-          <User className="w-5 h-5" />
-          <span>Account</span>
-        </Link>
-      </nav>
-    </div>
+function SidebarItem({ icon, label, to }: any) {
+  return (
+    <Link
+      to={to}
+      className="flex items-center gap-3 px-4 py-3 rounded-2xl text-muted hover:text-primary hover:bg-surface transition"
+    >
+      {icon}
+      {label}
+    </Link>
   );
 }

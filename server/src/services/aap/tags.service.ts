@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 
 /* create or get existing tags (used when creating post) */
 export const getOrCreateTags = async (tagName: string[]) => {
@@ -6,12 +6,12 @@ export const getOrCreateTags = async (tagName: string[]) => {
     tagName.map(async (name) => {
       const tag = await prisma.tag.upsert({
         where: { name: name.toLowerCase() },
-        create: { 
+        create: {
           name: name.toLowerCase(),
-          usage_count: 1
+          usage_count: 1,
         },
         update: {
-          usage_count: { increment: 1 }
+          usage_count: { increment: 1 },
         },
       });
       return tag;

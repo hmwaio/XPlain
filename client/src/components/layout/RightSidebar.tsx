@@ -1,20 +1,24 @@
 export default function RightSidebar() {
   return (
     <div className="space-y-6">
-      {/* Trending Tags */}
-      <div className="bg-white rounded-lg p-4 shadow">
-        <h3 className="font-bold mb-4">Trending Tags</h3>
-        <div className="flex flex-wrap gap-2">
-          <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">#react</span>
-          <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">#javascript</span>
-          <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">#webdev</span>
+      <div className="card p-4">
+        <h3 className="font-semibold mb-3">Trending</h3>
+
+        <div className="flex flex-wrap gap-2 text-sm">
+          {["#react", "#webdev", "#typescript"].map((t) => (
+            <span
+              key={t}
+              className="px-3 py-1 rounded-full bg-surface text-muted"
+            >
+              {t}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Suggested Users */}
-      <div className="bg-white rounded-lg p-4 shadow">
-        <h3 className="font-bold mb-4">Who to Follow</h3>
-        {/* User suggestions */}
+      <div className="card p-4">
+        <h3 className="font-semibold mb-3">Who to follow</h3>
+        <p className="text-sm text-muted">Coming soon...</p>
       </div>
     </div>
   );

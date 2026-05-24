@@ -52,7 +52,6 @@ export default function EditPost() {
     fetchPost();
   }, [id]);
 
-
   const addTag = () => {
     if (!tagInput.trim()) return;
     if (form.tags.length >= 5) return alert("Maximum 5 tags allowed");
@@ -67,7 +66,6 @@ export default function EditPost() {
   const removeTag = (tag: string) => {
     setForm({ ...form, tags: form.tags.filter((t: string) => t !== tag) });
   };
-
 
   const handleUpdate = async () => {
     if (!form.title.trim()) return alert("Title required");
@@ -108,43 +106,64 @@ export default function EditPost() {
   if (loading || categoriesLoading) return <Spinner />;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <div className="bg-white p-8 rounded-2xl shadow-sm">
-          <h1 className="text-3xl font-bold mb-8">Edit Post</h1>
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="max-w-4xl mx-auto py-10 px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight">Edit Post</h1>
+          <p className="text-muted-foreground mt-1">
+            Update your content before publishing
+          </p>
+        </div>
 
-          <TextEditor form={form} setForm={setForm} />
+        {/* Main Card */}
+        <div className="bg-card border border-border shadow-lg rounded-2xl p-8 space-y-8">
+          {/* Editor */}
+          <div className="rounded-xl overflow-hidden border border-border">
+            <TextEditor form={form} setForm={setForm} />
+          </div>
 
-          {/* CATEGORY */}
-          <div className="mb-6">
-            <label className="block mb-2 font-medium text-gray-700">
+          {/* Category */}
+          <div>
+            <label className="block mb-2 text-sm font-medium text-muted-foreground">
               Category
             </label>
+
             <select
               value={form.category}
-              onChange={(e) =>
-                setForm({ ...form, category: e.target.value })
-              }
-              className="w-full border p-3 rounded-lg"
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary transition"
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
-                <option key={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
           </div>
 
-          {/* TAGS */}
-          <div className="mb-6">
-            <div className="flex gap-2 flex-wrap mb-3">
+          {/* Tags */}
+          <div>
+            <label className="block mb-2 text-sm font-medium text-muted-foreground">
+              Tags
+            </label>
+
+            <div className="flex flex-wrap gap-2 mb-3">
               {form.tags.map((tag: string) => (
-                <div
+                <span
                   key={tag}
-                  className="bg-blue-100 px-3 py-1 rounded-full flex gap-2"
+                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-muted text-sm"
                 >
-                  #{tag}
-                  <button onClick={() => removeTag(tag)}>✕</button>
-                </div>
+                  <span className="text-primary">#</span>
+                  {tag}
+                  <button
+                    onClick={() => removeTag(tag)}
+                    className="text-muted-foreground hover:text-red-500 transition"
+                  >
+                    ✕
+                  </button>
+                </span>
               ))}
             </div>
 
@@ -153,19 +172,25 @@ export default function EditPost() {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addTag()}
-                className="flex-1 border p-3 rounded-lg"
+                placeholder="Add a tag..."
+                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
               />
+
               <button
                 onClick={addTag}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg"
+                className="px-6 py-3 rounded-xl primary-btn text-primary-foreground hover:opacity-90 transition"
               >
                 Add
               </button>
             </div>
           </div>
 
-          {/* STATUS */}
-          <div className="mb-8">
+          {/* Status */}
+          <div>
+            <label className="block mb-2 text-sm font-medium text-muted-foreground">
+              Status
+            </label>
+
             <select
               value={form.status}
               onChange={(e) =>
@@ -174,18 +199,18 @@ export default function EditPost() {
                   status: e.target.value,
                 })
               }
-              className="border p-2 rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="draft">Save as Draft</option>
               <option value="published">Publish</option>
             </select>
           </div>
 
-          {/* BUTTONS */}
-          <div className="flex gap-4">
+          {/* Buttons */}
+          <div className="flex gap-4 pt-2">
             <button
               onClick={() => navigate(-1)}
-              className="flex-1 border py-3 rounded-xl"
+              className="flex-1 py-3 rounded-xl border border-border text-foreground hover:bg-muted transition"
             >
               Cancel
             </button>
@@ -193,7 +218,7 @@ export default function EditPost() {
             <button
               onClick={handleUpdate}
               disabled={submitting}
-              className="flex-1 bg-blue-600 text-white py-3 rounded-xl"
+              className="flex-1 py-3 rounded-xl primary-btn text-primary-foreground font-medium hover:opacity-90 disabled:opacity-50 transition"
             >
               {submitting ? "Updating..." : "Update Post"}
             </button>

@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { cursorPaginate } from "../pagination/cursorScroll.service.js";
 
 /* get single post */

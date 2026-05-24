@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { cursorPaginate } from "../pagination/cursorScroll.service.js";
 
 /* Adding Comment */
@@ -70,7 +70,7 @@ export const getPostComments = async (
     where: { post_id: postId },
     ...(cursor && { cursor }),
     include: {
-      user: { select: { user_id: true, name: true }}
-    }
-  })
+      user: { select: { user_id: true, name: true } },
+    },
+  });
 };

@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { deleteImage } from "../uploads/cloudinary.service.js";
 
 export const deleteAccount = async (userId: number, password: string) => {

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { otpEmailTemplate } from "../../templates/sendOTPEmail.template.js";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -11,15 +12,12 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendOTPEmail = async (email: string, otp: string) => {
+  const otpemailTemplate = otpEmailTemplate({ otp, email });
   await transporter.sendMail({
     from: process.env.SMTP_FROM,
     to: email,
-    subject: "OTP for XPlain",
-    html: `
-      <h1>Verification Code for this ${email}</h1>
-      <p>Your OTP: <strong>${otp}</strong></p>
-      <p>Expires in 5 minutes.</p>
-    `,
+    subject: "Verify your account - XPlain",
+    html: otpemailTemplate,
   });
 };
 

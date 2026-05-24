@@ -187,29 +187,30 @@ export default function PostCard({
 
   return (
     <>
-      <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6">
+      <article className="card p-5 sm:p-6 hover:scale-[1.01] transition">
         {/* Author Header */}
         <div className="flex items-center justify-between mb-4">
           <div
             onClick={handleAuthorClick}
-            className="flex items-center gap-3 cursor-pointer hover:opacity-80"
+            className="flex items-center gap-3 cursor-pointer"
           >
-            <div className="rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+            <div className="w-9 h-9 rounded-full overflow-hidden bg-surface border border-border">
               {post.author.profile.profile_picture ? (
                 <img
                   src={post.author.profile.profile_picture}
-                  className="w-9 h-9 rounded-full object-cover"
+                  className="w-full h-full object-cover"
                   alt="Profile"
                 />
               ) : (
-                <div className="w-9 h-9 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold border-gray-200">
+                <div className="w-full h-full flex items-center justify-center bg-accent text-black font-bold">
                   {post.author.name.charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
+
             <div>
-              <p className="font-semibold text-gray-900">{post.author?.name}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-semibold text-primary">{post.author?.name}</p>
+              <p className="text-xs text-muted">
                 {formatDate(post.created_at)}
               </p>
             </div>
@@ -223,18 +224,19 @@ export default function PostCard({
                   e.stopPropagation();
                   setShowMenu(!showMenu);
                 }}
-                className="p-2 hover:bg-gray-100 rounded-full transition"
+                className="p-2 rounded-full hover:bg-surface text-muted"
               >
-                <MoreHorizontal className="w-5 h-5 text-gray-600" />
+                <MoreHorizontal className="w-5 h-5" />
               </button>
 
               {showMenu && (
                 <>
                   <div
-                    className="fixed inset-0 z-10"
+                    className="fixed inset-0"
                     onClick={() => setShowMenu(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-20">
+
+                  <div className="absolute right-0 mt-2 w-48 card p-2 z-20">
                     {post.status === "draft" ? (
                       <button
                         onClick={async (e) => {
@@ -242,13 +244,13 @@ export default function PostCard({
                           try {
                             await postAPI.publishPost(post.post_id);
                             window.location.reload();
-                          } catch (error) {
+                          } catch {
                             alert("Failed to publish");
                           }
                         }}
-                        className="w-full px-4 py-2 text-left hover:bg-green-50 transition text-green-600"
+                        className="w-full text-left px-3 py-2 rounded-lg text-green-400 hover:bg-surface"
                       >
-                        Publish Now
+                        Publish
                       </button>
                     ) : (
                       <button
@@ -256,16 +258,17 @@ export default function PostCard({
                           e.stopPropagation();
                           navigate(`/post/${post.post_id}/edit`);
                         }}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-50 transition text-gray-700"
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-surface"
                       >
-                        Edit Post
+                        Edit
                       </button>
                     )}
+
                     <button
                       onClick={handleDelete}
-                      className="w-full px-4 py-2 text-left hover:bg-red-50 transition text-red-600"
+                      className="w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-surface"
                     >
-                      Delete Post
+                      Delete
                     </button>
                   </div>
                 </>
@@ -274,35 +277,35 @@ export default function PostCard({
           )}
         </div>
 
-        {/* Category */}
-        {post.category && (
-          <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-full mb-3">
-            {post.category}
-          </span>
-        )}
+        {/* Category + Draft */}
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          {post.category && (
+            <span className="px-3 py-1 text-xs rounded-full bg-surface border border-border text-muted">
+              {post.category}
+            </span>
+          )}
 
-        {/* Draft Badge */}
-        {post.status === "draft" && isOwner && (
-          <span className="inline-block px-3 py-1 bg-yellow-50 text-yellow-700 text-xs font-bold rounded-full mb-3 ml-2">
-            📝 DRAFT
-          </span>
-        )}
+          {post.status === "draft" && isOwner && (
+            <span className="px-3 py-1 text-xs rounded-full bg-accent/10 text-accent border border-accent/20">
+              Draft
+            </span>
+          )}
+        </div>
 
         {/* Title */}
-        <h2 className="text-2xl font-bold text-gray-900 mb-3 leading-tight">
-          {post.title}
-        </h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-3">{post.title}</h2>
 
         {/* Content Preview */}
         <div className="mb-4">
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-secondary leading-relaxed">
             {contentPreview}
-            {hasMoreContent && <span className="text-gray-400">...</span>}
+            {hasMoreContent && <span className="text-muted">...</span>}
           </p>
+
           {hasMoreContent && (
             <button
               onClick={handleReadMore}
-              className="mt-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition"
+              className="mt-2 text-accent text-sm hover:opacity-80"
             >
               Read more →
             </button>
@@ -319,7 +322,7 @@ export default function PostCard({
                   e.stopPropagation();
                   navigate(`/search?tag=${tag.name}`);
                 }}
-                className="text-xs text-gray-500 hover:text-blue-600 cursor-pointer transition"
+                className="text-xs px-2 py-1 rounded-full bg-surface border border-border text-muted hover:text-accent cursor-pointer transition"
               >
                 #{tag.name}
               </span>
@@ -327,205 +330,168 @@ export default function PostCard({
           </div>
         )}
 
-        {/* Interactions - For non-owners OR feed view */}
+        {/* Actions */}
         {(isOwner || !isProfileView) && (
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-6">
+          <div className="flex items-center justify-between pt-4 border-t border-border">
+            <div className="flex items-center gap-5">
               <button
                 onClick={handleLike}
-                className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition group"
+                className="flex items-center gap-2 text-muted hover:text-red-400 transition"
               >
                 <Heart
-                  className={`w-5 h-5 ${isLiked ? "fill-red-500 text-red-500" : "group-hover:scale-110 transition-transform"}`}
+                  className={`w-5 h-5 ${
+                    isLiked ? "text-red-400 fill-red-400" : ""
+                  }`}
                 />
-                <span className="text-sm font-medium">{likesCount}</span>
+                <span className="text-sm">{likesCount}</span>
               </button>
 
               <button
                 onClick={handleReadMore}
-                className="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition group"
+                className="flex items-center gap-2 text-muted hover:text-accent transition"
               >
-                <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-medium">
-                  {post._count.comments}
-                </span>
+                <MessageCircle className="w-5 h-5" />
+                <span className="text-sm">{post._count.comments}</span>
               </button>
 
               <button
                 onClick={handleShare}
-                className="flex items-center gap-2 text-gray-600 hover:text-green-500 transition group"
+                className="text-muted hover:text-green-400 transition"
               >
-                <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Share2 className="w-5 h-5" />
               </button>
             </div>
 
             <button
               onClick={handleSave}
-              className="text-gray-600 hover:text-blue-500 transition group"
+              className="text-muted hover:text-accent transition"
             >
               <Bookmark
-                className={`w-5 h-5 ${isSaved ? "fill-blue-500 text-blue-500" : "group-hover:scale-110 transition-transform"}`}
+                className={`w-5 h-5 ${
+                  isSaved ? "text-accent fill-accent" : ""
+                }`}
               />
             </button>
           </div>
         )}
       </article>
 
-      {/* Modal - Animated */}
+      {/* Modal */}
       {showModal && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/60 flex items-center justify-center p-4"
           onClick={() => setShowModal(false)}
         >
           <div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp"
+            className="card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <div className="sticky top-0 bg-white/95 backdrop-blur-sm z-10 p-4 flex justify-end border-b">
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition"
-              >
-                <X className="w-6 h-6 text-gray-600" />
+            <div className="flex justify-end">
+              <button onClick={() => setShowModal(false)}>
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-8">
-              {loadingPost ? (
-                <div className="flex items-center justify-center py-20">
-                  <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                </div>
-              ) : fullPost ? (
-                <>
-                  {/* Author */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
-                      {fullPost.author.profile.profile_picture ? (
-                        <img
-                          src={fullPost.author.profile.profile_picture}
-                          className="w-14 h-14 rounded-full object-cover"
-                          alt="Profile"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold border-gray-200">
-                          {fullPost.author.name.charAt(0).toUpperCase()}
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-bold text-lg text-gray-900">
-                        {fullPost.author.name}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {formatDate(fullPost.created_at)}
-                      </p>
-                    </div>
+            {loadingPost ? (
+              <div className="py-20 text-center text-muted">Loading...</div>
+            ) : fullPost ? (
+              <>
+                {/* Author */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-surface">
+                    {fullPost.author.profile.profile_picture ? (
+                      <img
+                        src={fullPost.author.profile.profile_picture}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-accent text-black font-bold">
+                        {fullPost.author.name.charAt(0)}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Category */}
-                  {fullPost.category && (
-                    <span className="inline-block px-4 py-2 bg-blue-50 text-blue-600 text-sm font-medium rounded-full mb-6">
-                      {fullPost.category}
-                    </span>
-                  )}
+                  <div>
+                    <p className="font-semibold">{fullPost.author.name}</p>
+                    <p className="text-xs text-muted">
+                      {formatDate(fullPost.created_at)}
+                    </p>
+                  </div>
+                </div>
 
-                  {/* Title */}
-                  <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                    {fullPost.title}
-                  </h1>
+                {/* Title */}
+                <h1 className="text-3xl font-bold mb-4">{fullPost.title}</h1>
 
-                  {/* Image */}
-                  {fullPost.post_picture && (
-                    <img
-                      src={fullPost.post_picture}
-                      alt={fullPost.title}
-                      className="w-full rounded-xl mb-6 shadow-lg"
-                    />
-                  )}
-
-                  {/* Content */}
-                  <div
-                    className="prose prose-lg max-w-none mb-8 text-gray-700 leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: fullPost.content }}
+                {/* Image */}
+                {fullPost.post_picture && (
+                  <img
+                    src={fullPost.post_picture}
+                    className="w-full rounded-xl mb-6"
                   />
+                )}
 
-                  {/* Tags */}
-                  {fullPost.tags && fullPost.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 py-6 border-t border-gray-200">
-                      {fullPost.tags.map((tag: any, i: number) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 cursor-pointer transition"
-                        >
-                          #{tag.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                {/* Content */}
+                <div
+                  className="text-secondary leading-relaxed mb-6"
+                  dangerouslySetInnerHTML={{
+                    __html: fullPost.content,
+                  }}
+                />
 
-                  {/* Interactions in Modal */}
-                  <div className="flex items-center justify-between pt-6 border-t border-gray-200">
-                    <div className="flex items-center gap-6">
-                      <button
-                        onClick={handleLike}
-                        className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition"
+                {/* Tags */}
+                {fullPost.tags?.length > 0 && (
+                  <div className="flex flex-wrap gap-2 border-t border-border pt-4">
+                    {fullPost.tags.map((tag: any, i: number) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 text-xs rounded-full bg-surface border border-border"
                       >
-                        <Heart
-                          className={`w-6 h-6 ${isLiked ? "fill-red-500 text-red-500" : ""}`}
-                        />
-                        <span className="font-medium">{likesCount}</span>
-                      </button>
+                        #{tag.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
-                      <button className="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition">
-                        <MessageCircle className="w-6 h-6" />
-                        <span className="font-medium">
-                          {fullPost._count.comments}
-                        </span>
-                      </button>
-
-                      <button
-                        onClick={handleShare}
-                        className="flex items-center gap-2 text-gray-600 hover:text-green-500 transition"
-                      >
-                        <Share2 className="w-6 h-6" />
-                      </button>
-                    </div>
-
+                {/* Actions */}
+                <div className="flex items-center justify-between pt-6 border-t border-border mt-6">
+                  <div className="flex items-center gap-5">
                     <button
-                      onClick={handleSave}
-                      className="text-gray-600 hover:text-blue-500 transition"
+                      onClick={handleLike}
+                      className="flex items-center gap-2"
                     >
-                      <Bookmark
-                        className={`w-6 h-6 ${isSaved ? "fill-blue-500 text-blue-500" : ""}`}
+                      <Heart
+                        className={`w-5 h-5 ${isLiked ? "text-red-400 fill-red-400" : ""}`}
                       />
+                      <span className="text-sm">{likesCount}</span>
+                    </button>
+
+                    <button className="flex items-center gap-2">
+                      <MessageCircle className="w-5 h-5" />
+                      <span className="text-sm">
+                        {fullPost._count.comments}
+                      </span>
+                    </button>
+
+                    <button onClick={handleShare}>
+                      <Share2 className="w-5 h-5" />
                     </button>
                   </div>
-                  <PostComments postId={fullPost.post_id} />
-                </>
-              ) : null}
-            </div>
+
+                  <button onClick={handleSave}>
+                    <Bookmark
+                      className={`w-5 h-5 ${
+                        isSaved ? "text-accent fill-accent" : ""
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                <PostComments postId={fullPost.post_id} />
+              </>
+            ) : null}
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
-        }
-        .animate-slideUp {
-          animation: slideUp 0.3s ease-out;
-        }
-      `}</style>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { cursorPaginate } from "../pagination/cursorScroll.service.js";
 
 // Get PUBLIC profile (others viewing)
@@ -70,13 +70,13 @@ export const getUserProfile = async (
       ...(viewerId && {
         likes: {
           where: { user_id: viewerId },
-          select: { user_id: true }
+          select: { user_id: true },
         },
         savedBy: {
           where: { user_id: viewerId },
-          select: { user_id: true }
-        }
-      })
+          select: { user_id: true },
+        },
+      }),
     },
   });
 
@@ -85,7 +85,7 @@ export const getUserProfile = async (
     isLiked: post.likes?.length > 0,
     isSaved: post.savedBy?.length > 0,
     likes: undefined,
-    savedBy: undefined
+    savedBy: undefined,
   }));
 
   return {

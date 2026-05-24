@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 
 /* get user's followers */
 export const getFollowers = async (userId: number) => {

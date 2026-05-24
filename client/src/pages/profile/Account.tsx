@@ -1,4 +1,4 @@
-import { AlertTriangle, Lock, Mail, Trash2 } from "lucide-react";
+import { AlertTriangle, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../../api/auth.api";
@@ -125,227 +125,209 @@ export default function AccountSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto py-8 px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Account Settings</h1>
-          <p className="text-gray-600">
-            Manage your account security and preferences
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="max-w-3xl mx-auto py-10 px-4">
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Account Settings
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Security, authentication and account control
           </p>
         </div>
 
-        {/* Change Email */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Mail className="w-5 h-5 text-blue-600" />
+        {/* CHANGE EMAIL */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-sm mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+              <Mail className="w-5 h-5 text-blue-600 dark:text-blue-300" />
             </div>
-            <h2 className="text-xl font-bold">Change Email</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Change Email
+            </h2>
           </div>
 
-          <form onSubmit={handleEmailChange} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                New Email Address
-              </label>
-              <input
-                type="email"
-                disabled={otpStage}
-                value={emailForm.newEmail}
-                onChange={(e) =>
-                  setEmailForm({ ...emailForm, newEmail: e.target.value })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="new@example.com"
-              />
-            </div>
+          <form onSubmit={handleEmailChange} className="space-y-5">
+            <input
+              type="email"
+              disabled={otpStage}
+              value={emailForm.newEmail}
+              onChange={(e) =>
+                setEmailForm({ ...emailForm, newEmail: e.target.value })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="New email address"
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Current Password
-              </label>
-              <input
-                type="password"
-                disabled={otpStage}
-                value={emailForm.password}
-                onChange={(e) =>
-                  setEmailForm({ ...emailForm, password: e.target.value })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="••••••••"
-              />
-            </div>
+            <input
+              type="password"
+              disabled={otpStage}
+              value={emailForm.password}
+              onChange={(e) =>
+                setEmailForm({ ...emailForm, password: e.target.value })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Current password"
+            />
 
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
             >
-              {loading ? "Sending..." : "Send Code"}
+              {loading ? "Sending..." : "Send Verification Code"}
             </button>
           </form>
+
+          {/* OTP */}
           {otpStage && (
-            <div className="mt-6 p-4 border rounded-lg bg-gray-50">
-              <h3 className="font-semibold mb-3">Enter OTP</h3>
+            <div className="mt-6 p-5 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+                Enter OTP
+              </h3>
 
               <input
                 type="text"
-                autoFocus
                 maxLength={6}
+                autoFocus
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4"
-                placeholder="Enter 6-digit OTP"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="6-digit code"
               />
 
               <button
                 onClick={handleVerifyOtp}
                 disabled={loading}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
               >
-                {loading ? "Verifying..." : "Verify OTP"}
+                {loading ? "Verifying..." : "Verify Email"}
               </button>
             </div>
           )}
         </div>
 
-        {/* Change Password */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Lock className="w-5 h-5 text-green-600" />
+        {/* CHANGE PASSWORD */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-sm mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
+              <Lock className="w-5 h-5 text-green-600 dark:text-green-300" />
             </div>
-            <h2 className="text-xl font-bold">Change Password</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Change Password
+            </h2>
           </div>
 
-          <form onSubmit={handlePasswordChange} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Current Password
-              </label>
-              <input
-                type="password"
-                value={passwordForm.currentPassword}
-                onChange={(e) =>
-                  setPasswordForm({
-                    ...passwordForm,
-                    currentPassword: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="••••••••"
-              />
-            </div>
+          <form onSubmit={handlePasswordChange} className="space-y-5">
+            <input
+              type="password"
+              value={passwordForm.currentPassword}
+              onChange={(e) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  currentPassword: e.target.value,
+                })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              placeholder="Current password"
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                New Password
-              </label>
-              <input
-                type="password"
-                value={passwordForm.newPassword}
-                onChange={(e) =>
-                  setPasswordForm({
-                    ...passwordForm,
-                    newPassword: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="••••••••"
-                minLength={8}
-              />
-              <p className="text-sm text-gray-500 mt-1">
-                At least 8 characters
-              </p>
-            </div>
+            <input
+              type="password"
+              value={passwordForm.newPassword}
+              onChange={(e) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  newPassword: e.target.value,
+                })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              placeholder="New password (min 8 chars)"
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm New Password
-              </label>
-              <input
-                type="password"
-                value={passwordForm.confirmPassword}
-                onChange={(e) =>
-                  setPasswordForm({
-                    ...passwordForm,
-                    confirmPassword: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="••••••••"
-              />
-            </div>
+            <input
+              type="password"
+              value={passwordForm.confirmPassword}
+              onChange={(e) =>
+                setPasswordForm({
+                  ...passwordForm,
+                  confirmPassword: e.target.value,
+                })
+              }
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              placeholder="Confirm new password"
+            />
 
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="w-full sm:w-auto px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
             >
               {loading ? "Updating..." : "Update Password"}
             </button>
           </form>
         </div>
 
-        {/* Delete Account */}
-        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+        {/* DANGER ZONE */}
+        <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-red-100 rounded-lg">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
+            <div className="p-2 bg-red-100 dark:bg-red-900 rounded-lg">
+              <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-300" />
             </div>
-            <h2 className="text-xl font-bold text-red-600">Danger Zone</h2>
+            <h2 className="text-xl font-bold text-red-600 dark:text-red-400">
+              Danger Zone
+            </h2>
           </div>
 
-          <p className="text-gray-700 mb-4">
-            Once you delete your account, there is no going back. All your
-            posts, comments, and data will be permanently deleted.
+          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+            Deleting your account is permanent. All posts, comments, and data
+            will be removed forever.
           </p>
 
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700"
+            className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition"
           >
             Delete Account
           </button>
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* MODAL */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 bg-red-100 rounded-full">
-                <Trash2 className="w-6 h-6 text-red-600" />
-              </div>
-              <h3 className="text-xl font-bold">Delete Account?</h3>
-            </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6">
+            <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+              Confirm Account Deletion
+            </h3>
 
-            <p className="text-gray-600 mb-6">
-              This action cannot be undone. Enter your password to confirm.
+            <p className="text-gray-600 dark:text-gray-400 mb-5">
+              Enter your password to permanently delete your account.
             </p>
 
             <input
               type="password"
               value={deletePassword}
               onChange={(e) => setDeletePassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-red-500 outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 mb-5"
+              placeholder="Password"
             />
 
             <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
+                className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Cancel
               </button>
+
               <button
                 onClick={handleDeleteAccount}
                 disabled={loading}
-                className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition"
               >
-                {loading ? "Deleting..." : "Delete Forever"}
+                {loading ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>

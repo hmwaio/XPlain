@@ -12,7 +12,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
-  // const { login } = useAuth();
   const [postInputs, setPostInputs] = useState<LoginInputType>({
     email: "",
     password: "",
@@ -32,100 +31,104 @@ function Login() {
       setLoading(false);
     }
   };
-  const signupHandler = async () => {
-    await navigate("/signup");
-  };
-  const forgotAccountHandler = async () => {
-    await navigate("/forgot-password");
-  };
 
   return (
-    <>
-      <div className="min-h-screen bg-gray-50">
-        <h2 className="text-4xl mt-5 mb-8 md:mb-0 font-bold text-center">
-          Welcome To <span className="text-orange-600">XPlain</span>
-        </h2>
-        <div className="h-full w-full md:flex justify-center items-center bg-white">
-          <section className="hidden md:block md:w-1/2 ">
-            <img src={HeroImage1Copy} alt="" />
-          </section>
+    <div className="min-h-screen bg-bg text-primary flex items-center justify-center px-4">
+      <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-10 items-center">
+        {/* LEFT */}
+        <section className="hidden lg:flex items-center justify-center relative">
+          <div className="absolute w-72 h-72 bg-accent/10 blur-[120px] rounded-full" />
+          <img
+            src={HeroImage1Copy}
+            className="relative w-[80%] rounded-3xl border border-border"
+          />
+        </section>
 
-          <section className="h-full w-full md:w-1/2">
-            <form
-              onSubmit={loginHandler}
-              className="flex justify-center items-center "
-            >
-              {error && (
-                <div className="bg-red-50 text-red-600 p-3 rounded">
-                  {error}
-                </div>
-              )}
-              <div className="w-xs md:w-lg flex flex-col items-center gap-6">
-                <div className="w-full flex flex-col items-center gap-6 ">
-                  <LabeledInput
-                    label="Email"
-                    value={postInputs.email}
-                    placeholder="Enter your email address"
-                    onchange={(e) =>
-                      setPostInputs({ ...postInputs, email: e.target.value })
-                    }
-                  />
-                  <LabeledInput
-                    label="Password"
-                    value={postInputs.password}
-                    type="password"
-                    placeholder="Enter your password"
-                    onchange={(e) =>
-                      setPostInputs({ ...postInputs, password: e.target.value })
-                    }
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="text-lg font-semibold rounded-full w-full h-12 bg-orange-500/95 text-white hover:bg-orange-500 hover:cursor-pointer"
-                  disabled={loading}
-                >
-                  {loading ? "Logging in..." : "Log in"}
-                </button>
-                <button
-                  onClick={forgotAccountHandler}
-                  className="text-lg font-semibold text-orange-600 hover:bg-gray-200 rounded-full w-full h-12 hover:cursor-pointer"
-                >
-                  Forgotten account?
-                </button>
-                <button
-                  className="text-lg font-semibold text-orange-600 border rounded-full w-full h-12 hover:bg-gray-200 hover:cursor-pointer"
-                  onClick={signupHandler}
-                >
-                  Don't have account
-                </button>
-
-                <button
-                  type="button"
-                  className="flex justify-center items-center gap-3 text-lg font-semibold rounded-full w-full h-12 bg-black text-white hover:bg-orange-500 hover:cursor-pointer"
-                  disabled={loading}
-                >
-                  Continue with{" "}
-                  <span className="">
-                    <Github />
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="text-lg font-semibold rounded-full w-full h-12 bg-orange-500/95 text-white hover:bg-orange-500 hover:cursor-pointer"
-                  disabled={loading}
-                >
-                  {loading ? "Sending..." : "Continue with Google"}
-                </button>
-              </div>
-            </form>
-            <div className="mt-4 text-center text-2xl font-extrabold text-orange-600">
-              <span className="text-3xl">X</span>Plain
+        {/* RIGHT */}
+        <section className="w-full">
+          <div className="glass rounded-[32px] p-8 sm:p-10 border border-border">
+            <div className="mb-8 text-center">
+              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight">
+                Welcome to <span className="text-accent">XPlain</span>
+              </h2>
+              <p className="mt-3 text-secondary">
+                Sign in to continue writing & exploring ideas
+              </p>
             </div>
-          </section>
-        </div>
+
+            {error && (
+              <div className="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-300">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={loginHandler} className="space-y-5">
+              <LabeledInput
+                label="Email"
+                value={postInputs.email}
+                placeholder="Enter email"
+                onchange={(e) =>
+                  setPostInputs({ ...postInputs, email: e.target.value })
+                }
+              />
+
+              <LabeledInput
+                label="Password"
+                type="password"
+                value={postInputs.password}
+                placeholder="Enter password"
+                onchange={(e) =>
+                  setPostInputs({ ...postInputs, password: e.target.value })
+                }
+              />
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="primary-btn primary-btn-hover w-full h-12 rounded-2xl"
+              >
+                {loading ? "Logging in..." : "Log in"}
+              </button>
+            </form>
+
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={() => navigate("/forgot-password")}
+                className="w-full h-11 rounded-2xl border border-border bg-surface text-secondary hover:bg-surface-hover transition"
+              >
+                Forgot password?
+              </button>
+
+              <button
+                onClick={() => navigate("/signup")}
+                className="w-full h-11 rounded-2xl border border-border text-primary hover:bg-surface transition"
+              >
+                Create account
+              </button>
+
+              <button
+                type="button"
+                className="w-full h-12 rounded-2xl bg-surface border border-border flex items-center justify-center gap-3 hover:bg-surface-hover transition"
+              >
+                <Github size={18} />
+                Continue with GitHub
+              </button>
+
+              <button
+                type="button"
+                className="w-full h-12 rounded-2xl bg-accent text-black font-semibold hover:bg-accent-hover transition"
+              >
+                Continue with Google
+              </button>
+            </div>
+
+            <div className="mt-8 text-center text-sm text-muted">
+              © 2026 XPlain
+            </div>
+          </div>
+        </section>
       </div>
-    </>
+    </div>
   );
 }
 

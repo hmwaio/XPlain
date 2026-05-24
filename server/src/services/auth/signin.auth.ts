@@ -1,8 +1,7 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { SignInInput } from "../../types/type.js";
 import { signToken } from "../../utils/jwt.js";
 import { verifyPassword } from "../../utils/passwords.js";
-
 
 /* SignIn */
 export const signinUser = async (data: SignInInput) => {

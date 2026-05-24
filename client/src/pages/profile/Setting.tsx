@@ -1,4 +1,4 @@
-import { Camera, User, X } from "lucide-react";
+import { Camera, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { uploadAPI } from "../../api/upload.api";
 import { userAPI } from "../../api/user.api";
@@ -134,16 +134,21 @@ export default function ProfileSettings() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Profile Settings</h1>
-          <p className="text-gray-600">Manage your public profile</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <div className="max-w-4xl mx-auto py-10 px-4">
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Profile Settings
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Manage your profile, avatar and personal information
+          </p>
         </div>
 
-        {/* Cover Picture */}
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
-          <div className="relative h-48 bg-linear-to-r from-blue-500 to-purple-600">
+        {/* COVER */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden mb-8 border border-gray-100 dark:border-gray-700">
+          <div className="relative h-52 bg-linear-to-r from-blue-500 to-purple-600">
             {profile?.cover_picture && (
               <img
                 src={profile.cover_picture}
@@ -152,18 +157,19 @@ export default function ProfileSettings() {
               />
             )}
 
-            <div className="absolute bottom-4 right-4 flex gap-2">
+            {/* Overlay actions */}
+            <div className="absolute bottom-4 right-4 flex gap-3">
               {profile?.cover_picture && (
                 <button
                   onClick={handleDeleteCoverPic}
-                  className="p-2 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600"
+                  className="p-2 rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition"
                 >
                   <X className="w-5 h-5" />
                 </button>
               )}
 
-              <label className="p-2 bg-white rounded-full shadow-lg cursor-pointer hover:bg-gray-100">
-                <Camera className="w-5 h-5" />
+              <label className="p-2 rounded-full bg-white dark:bg-gray-900 shadow-md cursor-pointer hover:scale-105 transition">
+                <Camera className="w-5 h-5 text-gray-700 dark:text-white" />
                 <input
                   type="file"
                   accept="image/*"
@@ -175,39 +181,38 @@ export default function ProfileSettings() {
               </label>
             </div>
 
+            {/* Upload loading */}
             {uploadingCover && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
               </div>
             )}
           </div>
         </div>
 
-        {/* Profile Picture */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <User className="w-5 h-5 text-blue-600" />
-            </div>
-            <h2 className="text-xl font-bold">Profile Picture</h2>
-          </div>
+        {/* PROFILE PIC CARD */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 mb-8 border border-gray-100 dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            Profile Picture
+          </h2>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            {/* Avatar */}
             <div className="relative">
               {profile?.profile_picture ? (
                 <img
                   src={profile.profile_picture}
-                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
                   alt="Profile"
                 />
               ) : (
-                <div className="w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-gray-200">
+                <div className="w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
                   {profile?.name?.charAt(0).toUpperCase()}
                 </div>
               )}
 
-              <label className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg cursor-pointer hover:bg-gray-100 border-2 border-gray-200">
-                <Camera className="w-4 h-4" />
+              <label className="absolute bottom-1 right-1 p-2 bg-white dark:bg-gray-900 rounded-full shadow cursor-pointer hover:scale-105 transition">
+                <Camera className="w-4 h-4 text-gray-700 dark:text-white" />
                 <input
                   type="file"
                   accept="image/*"
@@ -219,70 +224,75 @@ export default function ProfileSettings() {
               </label>
 
               {uploadingProfile && (
-                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center">
                   <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
                 </div>
               )}
             </div>
 
-            <div>
-              <p className="text-gray-600 mb-2">
-                Recommended: Square image, at least 400x400px
+            {/* Info */}
+            <div className="text-center sm:text-left">
+              <p className="text-gray-600 dark:text-gray-400">
+                Recommended: square image (400×400 or more)
               </p>
+
               {profile?.profile_picture && (
                 <button
                   onClick={handleDeleteProfilePic}
-                  className="text-red-600 hover:text-red-700 text-sm font-medium"
+                  className="mt-2 text-sm text-red-500 hover:text-red-600 font-medium"
                 >
-                  Remove Picture
+                  Remove picture
                 </button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Name & Bio */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <User className="w-5 h-5 text-green-600" />
-            </div>
-            <h2 className="text-xl font-bold">Basic Information</h2>
-          </div>
+        {/* BASIC INFO */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            Basic Information
+          </h2>
 
-          <form onSubmit={handleUpdateInfo} className="space-y-4">
+          <form onSubmit={handleUpdateInfo} className="space-y-5">
+            {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Display Name
               </label>
+
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 placeholder="Your name"
                 required
               />
             </div>
 
+            {/* Bio */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Bio <span className="text-gray-400">(Optional)</span>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Bio
               </label>
+
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-                placeholder="Tell us about yourself..."
                 rows={4}
                 maxLength={160}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                placeholder="Tell us about yourself..."
               />
+
               <p className="text-sm text-gray-500 mt-1">{bio.length}/160</p>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium"
             >
               Save Changes
             </button>

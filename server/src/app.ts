@@ -14,7 +14,17 @@ const app = express();
 const { INTERNAL_SERVER_ERROR } = HTTP_STATUS;
 
 /* Middleware */
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: [
+      process.env.CLIENT_URL || "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://127.0.0.1:3001",
+      "null", // for local HTML files opened directly
+    ],
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 

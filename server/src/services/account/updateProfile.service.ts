@@ -1,9 +1,8 @@
-import { prisma } from "../../lib/prisma.js";
-import { deleteImage } from "../uploads/cloudinary.service.js";
+import { prisma } from "../../lib/prisma.lib.js";
+import { generateOTP } from "../../utils/otp.util.js";
 import { hashPassword, verifyPassword } from "../../utils/passwords.js";
 import { verifyOTP } from "../auth/verifyotp.auth.js";
-import { generateOTP } from "../../utils/otp.util.js";
-
+import { deleteImage } from "../uploads/cloudinary.service.js";
 
 export const updateProfile = async (
   userId: number,
@@ -111,12 +110,11 @@ export const deleteProfilePicture = async (
   return { message: `${type} picture deleted successfully` };
 };
 
-
 /* chage password */
 export const changePassword = async (
   userId: number,
   currentPassword: string,
-  newPassword: string
+  newPassword: string,
 ) => {
   if (!currentPassword || !newPassword) {
     throw new Error("All fields are required");
@@ -156,12 +154,11 @@ export const changePassword = async (
   return { message: "Password changed successfully" };
 };
 
-
 /* change email */
 export const changeEmail = async (
   userId: number,
   newEmail: string,
-  password: string
+  password: string,
 ) => {
   if (!newEmail || !password) {
     throw new Error("All fields are required");
@@ -212,14 +209,14 @@ export const changeEmail = async (
     },
   });
 
-  return { email: normalizedEmail, otp: OTP }; 
+  return { email: normalizedEmail, otp: OTP };
 };
 
 /* confirmEmailChange */
 export const confirmEmailChange = async (
   userId: number,
   email: string,
-  otp: string
+  otp: string,
 ) => {
   await verifyOTP({ email, otp });
 

@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import { cursorPaginate } from "../pagination/cursorScroll.service.js";
 
 // Get OWN profile with private info
@@ -72,7 +72,7 @@ export const getOwnProfile = async (
     isLiked: post.likes?.length > 0,
     isSaved: post.savedBy?.length > 0,
     likes: undefined,
-    savedBy: undefined
+    savedBy: undefined,
   }));
 
   return {

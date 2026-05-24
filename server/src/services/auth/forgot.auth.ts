@@ -1,25 +1,28 @@
-import { prisma } from "../../lib/prisma.js"
-import type { ResetPasswordInput, SendOtpInput, VerifyOTPInput } from "../../types/type.js";
-import { hashPassword } from "../../utils/passwords.js";
+import { prisma } from "../../lib/prisma.lib.js";
+import type {
+  ResetPasswordInput,
+  SendOtpInput,
+  VerifyOTPInput,
+} from "../../types/type.js";
 import { generateOTP } from "../../utils/otp.util.js";
+import { hashPassword } from "../../utils/passwords.js";
 import { verifyOTP } from "./verifyotp.auth.js";
-
 
 export const forgotPassword = async (data: SendOtpInput) => {
   const { OTP, expiredAt } = generateOTP();
 
   // check if user exist
   const user = await prisma.user.findUnique({
-    where: { email: data.email }
+    where: { email: data.email },
   });
 
   if (!user || !user.is_verified) {
     throw new Error("No account found with this email");
   }
-  
+
   // check existing authSession
   const existingSession = await prisma.authSession.findUnique({
-    where: { email: data.email }
+    where: { email: data.email },
   });
 
   if (existingSession) {
@@ -28,30 +31,31 @@ export const forgotPassword = async (data: SendOtpInput) => {
       data: {
         otp: OTP,
         otp_expires_at: expiredAt,
-        is_verified: false
-      }
+        is_verified: false,
+      },
     });
   } else {
     await prisma.authSession.create({
       data: {
         email: data.email,
         otp: OTP,
-        otp_expires_at: expiredAt
-      }
+        otp_expires_at: expiredAt,
+      },
     });
   }
-  return { otp: OTP, email: data.email }    // this sends to brevo
-}
-
+  return { otp: OTP, email: data.email }; // this sends to brevo
+};
 
 export const verifyResetOTP = async (data: VerifyOTPInput) => {
   return await verifyOTP(data);
-}
+};
 
-
-export const resetPassword = async (newPassword: ResetPasswordInput, tempToken: string) => {
+export const resetPassword = async (
+  newPassword: ResetPasswordInput,
+  tempToken: string,
+) => {
   const authSession = await prisma.authSession.findUnique({
-    where: { authsession_id: tempToken }
+    where: { authsession_id: tempToken },
   });
 
   if (!authSession) {
@@ -63,7 +67,7 @@ export const resetPassword = async (newPassword: ResetPasswordInput, tempToken: 
 
   // find user
   const user = await prisma.user.findUnique({
-    where: { email: authSession.email}
+    where: { email: authSession.email },
   });
 
   if (!user) {
@@ -77,13 +81,13 @@ export const resetPassword = async (newPassword: ResetPasswordInput, tempToken: 
   await prisma.user.update({
     where: { email: authSession.email },
     data: {
-      password: hashedPassword
-    }
+      password: hashedPassword,
+    },
   });
 
   await prisma.authSession.delete({
-    where: { authsession_id: tempToken }
+    where: { authsession_id: tempToken },
   });
 
-  return { message: "Password reset successful" }
-}
+  return { message: "Password reset successful" };
+};

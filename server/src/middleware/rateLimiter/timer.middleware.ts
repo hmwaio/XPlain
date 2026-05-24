@@ -1,6 +1,6 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 
-
+const emailIpKey = (req: any) => `${req.body.email}-${ipKeyGenerator(req)}`;
 // OTP sending - 5 requests per 24 hours per email
 export const otpPerMinuteLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -8,7 +8,7 @@ export const otpPerMinuteLimiter = rateLimit({
   message: { error: "Please wait 60 seconds before requesting another OTP" },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `${req.body.email}-${req.ip}`,
+  keyGenerator: emailIpKey,
 });
 
 // OTP sending - 3 requests per hours per email
@@ -18,7 +18,7 @@ export const otpPerHourLimiter = rateLimit({
   message: { error: "Too many OTP requests. Try again after an hour." },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `${req.body.email}-${req.ip}`,
+  keyGenerator: emailIpKey,
 });
 
 // OTP sending - 5 requests per 24 hours per email
@@ -28,9 +28,8 @@ export const otpPerDayLimiter = rateLimit({
   message: { error: "Too many OTP requests. Try again after 24 hours." },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `${req.body.email}-${req.ip}`,
+  keyGenerator: emailIpKey,
 });
-
 
 /* OTP verification - 3 attempts per 5 minutes per email */
 export const otpVerifyLimiter = rateLimit({
@@ -39,5 +38,5 @@ export const otpVerifyLimiter = rateLimit({
   message: { error: "Too many OTP attempts. Try again after 5 minutes." },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => `${req.body.email}-${req.ip}`,
+  keyGenerator: emailIpKey,
 });

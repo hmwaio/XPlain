@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma.js";
+import { prisma } from "../../lib/prisma.lib.js";
 import type { CreatePostInput } from "../../types/type.js";
 import { getOrCreateTags } from "../aap/tags.service.js";
 
@@ -21,8 +21,8 @@ export const createPost = async (data: CreatePostInput, author_id: number) => {
     await prisma.post.update({
       where: { post_id: post.post_id },
       data: {
-        tags: { connect: tags.map(t => ({ tag_id: t.tag_id })) }
-      }
+        tags: { connect: tags.map((t) => ({ tag_id: t.tag_id })) },
+      },
     });
   }
 
