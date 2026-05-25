@@ -2,34 +2,38 @@ name: Deploy Frontend
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "client/**"
 
 jobs:
   build-and-deploy:
+    name: Build & Deploy Frontend
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: client
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd client
-          npm install
+        run: npm ci
 
-      - name: Build project
-        run: |
-          cd client
-          npm run build
+      - name: Build client
+        run: npm run build
 
-      - name: Deploy to S3
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -37,5 +41,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
+        run: aws s3 sync client/dist s3://${{ secrets.S3_BUCKET }} --delete
+
+      - name: Invalidate CloudFront Cache
         run: |
-          aws s3 sync client/dist s3://${{ secrets.S3_BUCKET }} --delete
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
