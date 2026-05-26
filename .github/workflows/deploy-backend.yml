@@ -1,0 +1,66 @@
+name: Deploy Backend to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "server/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Load NVM
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # Navigate to project
+            cd /app/XPlain
+
+            # Pull latest code
+            git pull origin main
+
+            # Navigate to server directory
+            cd server
+
+            # Install production dependencies only
+            npm ci --omit=dev
+
+            # Generate Prisma client
+            npx prisma generate
+
+            # Run database migrations (if needed)
+            npx prisma migrate deploy
+            npx prisma generate
+
+            # Build TypeScript
+            npm run build
+
+            # Restart PM2 process
+            pm2 restart xplain-server || pm2 start dist/index.js --name xplain-server --env production
+
+            # Save PM2 process list
+            pm2 save
+
+      - name: Deployment Status
+        run: echo "✅ Backend deployed to AWS EC2 successfully"
